@@ -1,0 +1,115 @@
+---
+interface Props {
+	title: string;
+	description?: string;
+	image?: string;
+}
+
+const {
+	title,
+	description = "Rasakan sensasi pedas nampol Mie Ganyang Sidoarjo! Mie kenyal dengan bumbu rahasia. Level pedas sopan sampai kesurupan. Alamat: Perumahan Graha Properindo Blok CF No. 6, Kebonagung, Sukodono, Sidoarjo.",
+	image = "https://lh3.googleusercontent.com/aida-public/AB6AXuBDwMfsCDce8IiWvvB0fWgLRseubcpKDWY8CIb7Vk4LT3KdQCw4zbIAWM_glhct8iuh7elHs-XOcj2NBI9WOH4owGm5j9JaDMFfu57eE1MoiEo_N9ntxO9KtxPfyeTwYIfZ9vlWu-IE3hGzhYTxU6KojA95cW_EVVCIugW93JX3Qpxu3ZwB1UbNNJu-kp0t1Xzlbh3gpGQavxt3Gu93qjDOCkAWPYFrqzjjU8z3okpPoMVE09lh5Lad1oKtDnoOszLhKYm7ANL3tjhM",
+} = Astro.props;
+
+const canonicalURL = new URL(
+	Astro.url.pathname,
+	Astro.site || "https://mieganyangsidoarjo.com",
+);
+
+const schema = {
+	"@context": "https://schema.org",
+	"@type": "Restaurant",
+	name: "Mie Ganyang Sidoarjo",
+	image: image,
+	description: description,
+	address: {
+		"@type": "PostalAddress",
+		streetAddress:
+			"Perumahan Graha Properindo Blok CF No. 6, Kebonagung, Sukodono, Sidoarjo",
+		addressLocality: "Sidoarjo",
+		addressRegion: "Jawa Timur",
+		postalCode: "61258",
+		addressCountry: "ID",
+	},
+	geo: {
+		"@type": "GeoCoordinates",
+		latitude: -7.4478,
+		longitude: 112.7183,
+	},
+	url: canonicalURL.toString(),
+	telephone: "+6281357806031",
+	servesCuisine: "Indonesian, Spicy Noodle",
+	priceRange: "Rp 10.000 - Rp 15.000",
+	openingHoursSpecification: [
+		{
+			"@type": "OpeningHoursSpecification",
+			dayOfWeek: [
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday",
+				"Saturday",
+				"Sunday",
+			],
+			opens: "10:00",
+			closes: "16:00",
+		},
+	],
+	menu: "https://mieganyangsidoarjo.com/#menu",
+};
+---
+
+<!doctype html>
+<html class="dark" lang="id">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="canonical" href={canonicalURL} />
+		<title>{title}</title>
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={image} />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={canonicalURL} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={image} />
+
+		<!-- Geo Tags for Local SEO -->
+		<meta name="geo.region" content="ID-JI" />
+		<meta name="geo.placename" content="Sidoarjo" />
+		<meta name="geo.position" content="-7.4478;112.7183" />
+		<meta name="ICBM" content="-7.4478, 112.7183" />
+
+		<!-- JSON-LD Schema -->
+		<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- Material Symbols -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1"
+			rel="stylesheet"
+		/>
+	</head>
+	<body
+		class="bg-background-dark text-text-primary font-body antialiased selection:bg-primary selection:text-white"
+	>
+		<slot />
+	</body>
+</html>

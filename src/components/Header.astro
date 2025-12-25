@@ -1,0 +1,118 @@
+---
+
+---
+
+<!-- Sticky Navigation -->
+<div
+    class="fixed top-0 left-0 right-0 z-50 bg-[#1A1A1A]/90 backdrop-blur-md border-b border-white/10"
+>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <header class="flex items-center justify-between h-20">
+            <div class="flex items-center gap-3">
+                <div
+                    class="size-10 bg-primary rounded-full flex items-center justify-center text-white"
+                >
+                    <span class="material-symbols-outlined filled"
+                        >ramen_dining</span
+                    >
+                </div>
+                <h2
+                    class="text-white text-xl font-display font-bold tracking-tight"
+                >
+                    Mie Ganyang
+                </h2>
+            </div>
+            <nav class="hidden md:flex items-center gap-8">
+                <a
+                    class="text-text-secondary hover:text-white text-sm font-medium transition-colors"
+                    href="#menu">Menu</a
+                >
+                <a
+                    class="text-text-secondary hover:text-white text-sm font-medium transition-colors"
+                    href="#pedas">Level Pedas</a
+                >
+                <a
+                    class="text-text-secondary hover:text-white text-sm font-medium transition-colors"
+                    href="#testimoni">Testimoni</a
+                >
+                <a
+                    class="text-text-secondary hover:text-white text-sm font-medium transition-colors"
+                    href="#lokasi">Lokasi</a
+                >
+            </nav>
+            <div class="flex items-center gap-4">
+                <a
+                    href="https://wa.me/6281357806031?text=Halo%20kak%2C%20saya%20mau%20pesan%20Mie%20Ganyang..."
+                    target="_blank"
+                    class="hidden md:flex cursor-pointer items-center justify-center rounded-full h-10 px-6 bg-primary hover:bg-red-600 text-white text-sm font-bold transition-all shadow-lg shadow-primary/20"
+                >
+                    <span class="mr-2">Pesan Online</span>
+                    <span class="material-symbols-outlined text-lg"
+                        >arrow_forward</span
+                    >
+                </a>
+                <!-- Mobile Menu Button -->
+                <button
+                    id="mobile-menu-btn"
+                    class="md:hidden p-2 text-text-primary hover:text-white transition-colors"
+                >
+                    <span class="material-symbols-outlined text-3xl">menu</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Mobile Menu Dropdown -->
+        <div
+            id="mobile-menu"
+            class="hidden md:hidden absolute top-20 left-0 right-0 bg-[#1A1A1A] border-b border-white/10 p-4 flex flex-col gap-4 shadow-2xl"
+        >
+            <a
+                class="text-text-secondary hover:text-white font-medium py-2 px-4 rounded-lg hover:bg-white/5 transition-all"
+                href="#menu">Menu</a
+            >
+            <a
+                class="text-text-secondary hover:text-white font-medium py-2 px-4 rounded-lg hover:bg-white/5 transition-all"
+                href="#pedas">Level Pedas</a
+            >
+            <a
+                class="text-text-secondary hover:text-white font-medium py-2 px-4 rounded-lg hover:bg-white/5 transition-all"
+                href="#testimoni">Testimoni</a
+            >
+            <a
+                class="text-text-secondary hover:text-white font-medium py-2 px-4 rounded-lg hover:bg-white/5 transition-all"
+                href="#lokasi">Lokasi</a
+            >
+            <a
+                href="https://wa.me/6281357806031?text=Halo%20kak%2C%20saya%20mau%20pesan%20Mie%20Ganyang..."
+                target="_blank"
+                class="flex items-center justify-center rounded-xl h-12 bg-primary text-white font-bold transition-all shadow-lg"
+            >
+                Pesan Online
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const mobileBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    mobileBtn?.addEventListener("click", () => {
+        mobileMenu?.classList.toggle("hidden");
+        const icon = mobileBtn.querySelector("span");
+        if (icon) {
+            icon.textContent = mobileMenu?.classList.contains("hidden")
+                ? "menu"
+                : "close";
+        }
+    });
+
+    // Close menu when clicking a link
+    mobileMenu?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            mobileMenu?.classList.add("hidden");
+            const icon = mobileBtn?.querySelector("span");
+            if (icon) icon.textContent = "menu";
+        });
+    });
+</script>

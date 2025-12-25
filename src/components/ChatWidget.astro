@@ -1,0 +1,195 @@
+---
+
+---
+
+<div
+    class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 font-body"
+    id="chat-widget"
+>
+    <!-- Chat Window (Initially Hidden) -->
+    <div
+        id="chat-window"
+        class="w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden transform scale-90 opacity-0 pointer-events-none transition-all duration-300 origin-bottom-right"
+    >
+        <!-- Header -->
+        <div class="bg-primary p-4 flex items-center gap-3">
+            <div
+                class="size-10 bg-white/20 rounded-full flex items-center justify-center text-white"
+            >
+                <span class="material-symbols-outlined">smart_toy</span>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-sm">GanyangBot 🤖</h4>
+                <p class="text-white/80 text-xs">Online • Balas cepat</p>
+            </div>
+            <button
+                id="close-chat"
+                class="ml-auto text-white/80 hover:text-white"
+            >
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <!-- Chat Body -->
+        <div
+            class="h-80 bg-gray-50 p-4 overflow-y-auto flex flex-col gap-3"
+            id="chat-messages"
+        >
+            <!-- Bot Message -->
+            <div class="flex gap-2 max-w-[85%]">
+                <div
+                    class="size-8 bg-primary/10 rounded-full flex shrink-0 items-center justify-center text-primary text-xs"
+                >
+                    🤖
+                </div>
+                <div
+                    class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-gray-100 text-sm text-gray-700"
+                >
+                    Halo kak! Selamat datang di <strong
+                        >Mie Ganyang Sidoarjo</strong
+                    >. Ada yang bisa saya bantu? 🔥
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div
+            class="p-3 bg-white border-t border-gray-100 grid grid-cols-2 gap-2"
+        >
+            <button
+                class="quick-reply bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs py-2 px-3 rounded-lg transition-colors font-medium text-left"
+                data-msg="Lihat Menu & Harga"
+            >
+                🍜 Menu & Harga
+            </button>
+            <button
+                class="quick-reply bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs py-2 px-3 rounded-lg transition-colors font-medium text-left"
+                data-msg="Lokasi Dimana?"
+            >
+                📍 Lokasi
+            </button>
+            <button
+                class="quick-reply bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs py-2 px-3 rounded-lg transition-colors font-medium text-left"
+                data-msg="Cara Pesan?"
+            >
+                🛒 Cara Pesan
+            </button>
+            <button
+                class="quick-reply bg-primary/10 hover:bg-primary/20 text-primary text-xs py-2 px-3 rounded-lg transition-colors font-medium text-left"
+                onclick="window.open('https://wa.me/6281357806031', '_blank')"
+            >
+                💬 Chat Admin
+            </button>
+        </div>
+    </div>
+
+    <!-- Toggle Button -->
+    <button
+        id="toggle-chat"
+        class="group relative bg-[#25D366] hover:bg-[#20bd5a] text-white w-16 h-16 rounded-full shadow-xl hover:scale-105 transition-all flex items-center justify-center"
+    >
+        <span class="material-symbols-outlined text-3xl">chat</span>
+        <!-- Notification Dot -->
+        <span
+            class="absolute top-0 right-0 flex h-4 w-4 transform -translate-y-1 translate-x-1"
+        >
+            <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"
+            ></span>
+            <span
+                class="relative inline-flex rounded-full h-4 w-4 bg-red-500 border-2 border-[#25D366]"
+            ></span>
+        </span>
+        <!-- Tooltip -->
+        <div
+            class="absolute right-full mr-4 bg-white text-gray-800 text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg"
+        >
+            Chat GanyangBot 👋
+        </div>
+    </button>
+</div>
+
+<script>
+    // Elements
+    const chatWindow = document.getElementById("chat-window");
+    const toggleBtn = document.getElementById("toggle-chat");
+    const closeBtn = document.getElementById("close-chat");
+    const messages = document.getElementById("chat-messages");
+
+    // Toggle Chat visibility
+    function toggleChat() {
+        if (!chatWindow) return;
+        chatWindow.classList.toggle("opacity-0");
+        chatWindow.classList.toggle("pointer-events-none");
+        chatWindow.classList.toggle("scale-90");
+    }
+
+    if (toggleBtn) toggleBtn.addEventListener("click", toggleChat);
+    if (closeBtn) closeBtn.addEventListener("click", toggleChat);
+
+    // Auto scroll to bottom of chat
+    function scrollToBottom() {
+        if (!messages) return;
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    // Add Message to chat
+    function addMessage(text, isUser = false) {
+        if (!messages) return;
+        const div = document.createElement("div");
+        div.className = `flex gap-2 max-w-[85%] ${isUser ? "ml-auto flex-row-reverse" : ""}`;
+
+        div.innerHTML = `
+            <div class="size-8 ${isUser ? "bg-gray-200" : "bg-primary/10"} rounded-full flex shrink-0 items-center justify-center text-xs">
+                ${isUser ? "👤" : "🤖"}
+            </div>
+            <div class="${isUser ? "bg-primary text-white" : "bg-white border border-gray-100 text-gray-700"} p-3 rounded-2xl ${isUser ? "rounded-tr-none" : "rounded-tl-none"} shadow-sm text-sm">
+                ${text}
+            </div>
+        `;
+        messages.appendChild(div);
+        scrollToBottom();
+    }
+
+    // Bot Response Logic
+    function handleBotResponse(text) {
+        let reply = "";
+
+        if (text === "Lihat Menu & Harga") {
+            reply = `
+                <b>Daftar Menu Mie Ganyang:</b><br><br>
+                🔥 <b>Mie Ganyang + Bakso</b> : 10K<br>
+                🔥 <b>Mie Ganyang + Pangsit</b> : 10K<br>
+                 🥟 <b>Pangsit Chili Oil</b> : 10K<br><br>
+                Semua harga ramah di kantong pelajar! 😉
+            `;
+        } else if (text === "Lokasi Dimana?") {
+            reply = `
+                Kami ada di <b>Graha Properindo, Sukodono</b>. <br><br>
+                <a href="https://maps.app.goo.gl/r4Kh7m8GWjsPyhkP9" target="_blank" class="text-blue-500 underline font-medium">Klik di sini untuk map</a> 🗺️
+            `;
+        } else if (text === "Cara Pesan?") {
+            reply = `
+                Gampang banget! Pilih menu di atas, terus klik tombol <b>Pesan</b>. Nanti langsung terhubung ke WhatsApp kak Admin. <br><br>
+                Atau bisa langsung chat WA admin di tombol menu bawah ya!
+            `;
+        }
+
+        setTimeout(() => {
+            addMessage(reply);
+        }, 500);
+    }
+
+    // Quick Reply Buttons
+    document.querySelectorAll(".quick-reply").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+            const currentElement = e.currentTarget;
+            // @ts-ignore
+            const text = currentElement.getAttribute("data-msg");
+            if (text) {
+                addMessage(text, true);
+                handleBotResponse(text);
+            }
+        });
+    });
+</script>
