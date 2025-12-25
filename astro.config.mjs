@@ -6,6 +6,6 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://mieganyangsidoarjo.com',
+    site: 'https://mie-ganyang.vercel.app',
     integrations: [tailwind(), sitemap()],
 });
